@@ -1,11 +1,14 @@
-// polyfills from mdn
-Array.prototype.fill||(Array.prototype.fill=function(t){if(null==this)throw new TypeError("this is null or not defined");for(var r=Object(this),n=r.length>>>0,i=arguments[1],a=i>>0,e=0>a?Math.max(n+a,0):Math.min(a,n),o=arguments[2],h=void 0===o?n:o>>0,l=0>h?Math.max(n+h,0):Math.min(h,n);l>e;)r[e]=t,e++;return r});
+// nodejs compatibility
+var math
+if(require != undefined){
+  math = require("mathjs")
+}
+
+math.config({number:"BigNumber",precision:64});
 
 var tokens = ["\ud83d\ude00","\ud83d\ude05","\ud83d\ude09","\ud83d\ude0d","\ud83d\ude12","\ud83d\ude17","\ud83d\ude1c","\ud83d\ude21","\ud83d\ude01","\ud83d\ude06","\ud83d\udd1f","\ud83d\udcaf","\u2795","\u2796","\u2797","\u2716","\u23eb","\u23ec","\u23ea","\u23e9","\ud83c\udd99","\ud83d\ude0a","\ud83d\ude0e","\ud83d\ude13","\ud83d\ude18","\ud83d\ude1d","\ud83d\ude22","\ud83d\ude02","\ud83d\ude07","\u263a\ufe0f","\ud83d\ude0f","\ud83d\ude14","\ud83d\ude19","\ud83d\ude1e","\ud83d\ude23","\ud83d\ude03","\ud83d\ude08","\ud83d\ude0b","\ud83d\ude10","\ud83d\ude15","\ud83d\ude1a","\ud83d\ude1f","\ud83d\ude24","\ud83d\ude04","\ud83d\udc7f","\ud83d\ude0c","\ud83d\ude11","\ud83d\ude16","\ud83d\ude1b","\ud83d\ude20","\ud83d\ude25","\ud83d\ude26","\ud83d\ude2b","\ud83d\ude30","\ud83d\ude35","\ud83d\ude3a","\ud83d\ude3f","\ud83d\ude27","\ud83d\ude2c","\ud83d\ude31","\ud83d\ude36","\ud83d\ude3b","\ud83d\ude40","\ud83d\ude28","\ud83d\ude2d","\ud83d\ude32","\ud83d\ude37","\ud83d\ude3c","\ud83d\udc63","\ud83d\ude29","\ud83d\ude2e","\ud83d\ude33","\ud83d\ude38","\ud83d\ude3d","\ud83d\udc64","\ud83d\ude2a","\ud83d\ude2f","\ud83d\ude34","\ud83d\ude39","\ud83d\ude3e","\ud83d\udc65","\ud83c\udf11","\ud83c\udf12","\ud83c\udf13","\ud83c\udf14","\ud83c\udf15","\ud83c\udf16","\ud83c\udf17","\ud83c\udf18","\ud83d\udd22","\ud83d\udd24","\ud83d\udd21","\ud83d\udd20","\u2139","\ud83d\udcf6","\ud83c\udfa6","\ud83d\udd23","\ufe0f\u2757","\ufe0f\u2753","\u2755","\u2754","\u203c\ufe0f","\u2049\ufe0f","\ud83c\udfb2"];
-var explanations = ["push 0 to the stack","push 1 to the stack","push 2 to the stack","push 3 to the stack","push 4 to the stack","push 5 to the stack","push 6 to the stack","push 7 to the stack","push 8 to the stack","push 9 to the stack","push 10 to the stack","push 100 to the stack","add top two elements on stack","subtract top two elements on stack","divide top two elements on stack","multiply top two elements on stack","take one character as input, push it to the stack","pops and outputs top of stack as character","open loop","close loop","duplicate top of stack","drop top element of stack","reverse stack","pop N; pop top N elements of stack, and push them in reverse order","exponentiate top two elements","take log base B of N, popping N then B","pop N, push -N","pop N, push |N| (absolute value)","pop N, push 2N","pop N, push 3N","pop N, push 4N","pop N, push N/2","pop N, push N/3","pop N, push N/4","pop N, push N^2","pop N, push N^3","pop N, push N^4","pop N, push sqrt[N]","pop N, push cbrt[N]","pop N, push root[4][N]","pop N, push floor[N]","pop N, push ceil[N]","pop N, push round[N]","pop N, push N+1","pop N, push N-1","pop N, M, push M % N (modulus)","pop N, push 2^N","pop N, push 3^N","pop N, push 4^N","pop N, push fibonacci[N]","pop N, push lucas[N]","push pi","push e","push phi","pop N, push ln(N) (<code>log_e(N)</code>)","pop N, push log(N) (<code>log_10(N)</code>)","pop N, push e^N","pop N, push 10^N","pop N, jump behind Nth command","pop C, N, and set the Nth command to C","pop N, push the character code of the Nth command","pop N, push N%2","pushes a random number in [0,1)","pop N and output as a number","begin quote string","end quote string","clear output","take numeric input"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","push the imaginary unit to the stack"," "," "," ","pop N, push factorial[N]","pop B, A, N, and, if N is truthy, push A; otherwise, push B","skip next command","pop N; if N is truthy, skip next command,","pop N; push double_factorial[N]","pop N; if N is truthy, execute next command","pop N, M; push a random integer in [M, N)"];
-var moons = ["\uD83C\uDF11","\uD83C\uDF12","\uD83C\uDF13","\uD83C\uDF14","\uD83C\uDF15","\uD83C\uDF16","\uD83C\uDF17","\uD83C\uDF18"];
-math.config({number:"bignumber",precision:64});
 function tokenize(r){r=r.trim();for(var t=[],n=0,e="",i=tokens;n<r.length;){for(var a=r.length-n;a>0;){var h=i.indexOf(r.substring(n,n+a));if(-1!==h){""!==e&&t.push(e.trim()),e="",t.push(i[h]),n+=a-1;break}a--,0===a&&(e=e.concat(r.charAt(n)))}n++}return""!==e&&t.push(e.trim()),t}
+
 var factorial = math.factorial;
 var mem=[];
 function arithmeticException(name){
@@ -40,6 +43,11 @@ function Emotinomicon(code){
 	}
 	var stack=[];
 	var stringMode = false;
+	var ostr="";
+	function outwrite(arg){
+		ostr+=arg;
+		process.stdout.write(arg);
+	}
 	function step(code,i,stack,stringMode){
 		if(stringMode){
 			if(tokens.indexOf(x[i])==65)stringMode=false;
@@ -63,7 +71,7 @@ function Emotinomicon(code){
 				case 14:var b=stack.pop(),a=stack.pop();stack.push(math.divide(a,b));break;
 				case 15:var b=stack.pop(),a=stack.pop();stack.push(math.multiply(a,b));break;
 				case 16:var inpu=prompt().split("");if(inpu.length==0)stack.push(-1);else inpu.forEach(function(e){stack.push(math.bignumber(e.charCodeAt()))});break;
-				case 17:document.getElementById("output").innerHTML+=String.fromCharCode(Number(stack.pop().valueOf())).replace(/\n/g,"<br>");break;
+				case 17:outwrite(String.fromCharCode(Number(stack.pop().valueOf())).replace(/\n/g,"<br>"));break;
 				case 19:
 					if(stack[stack.length-1]){
 						var depth=1;
@@ -117,9 +125,9 @@ function Emotinomicon(code){
 				case 60:stack.push(x[stack.pop()].charCodeAt(0));break;
 				case 61:stack.push(stack.pop()%2);break;
 				case 62:stack.push(Math.random());break;
-				case 63:document.getElementById("output").innerHTML+=stack.pop();break;
+				case 63:outwrite(stack.pop());break;
 				case 64:stringMode=true;break;
-				case 66:document.getElementById("output").innerHTML="";break;
+				case 66:outwrite("\n");break;
 				case 67:try{var inpu=prompt();stack.push(math.bignumber(inpu))}catch(e){stack.push(-1);};break;
 				case 93:stack.push(math.eval("i"));break;
 				case 96:stack.push(factorial(stack.pop()));break;
@@ -132,30 +140,20 @@ function Emotinomicon(code){
 			}
 		}
 		if(++i<x.length){
-			setTimeout(step,20,code,i,stack,stringMode);
+			return undefined
 		} else {
-			if(stack.length) console.log(display(stack));
-			console.log("Done!");
+			return ostr
 		}
 	}
-	step(code,0,stack,stringMode);
+	var i=0;
+	while(true){
+		var oout=step(code,i,stack,stringMode);
+		i++;
+		if(oout != undefined) return oout;
+	}
 }
-var code=document.getElementById("code");
-function updateByteCount(){
-	function d(p){var o=[],n=0,q=p.length,r,m;while(n<q){r=p.charCodeAt(n++);if(r>=55296&&r<=56319&&n<q){m=p.charCodeAt(n++);if((m&64512)==56320){o.push(((r&1023)<<10)+(m&1023)+65536)}else{o.push(r);n--}}else{o.push(r)}}return o}
-	document.getElementById("byteCnt").innerHTML = utf8.encode(code.value).length;
-	document.getElementById("charCnt").innerHTML = d(code.value).length;
-}
-updateByteCount();
-code.addEventListener("keyup",updateByteCount);
-code.addEventListener("keydown",updateByteCount);
-var button=document.getElementById("sub");
-var oEl = document.getElementById("rot");
+var code="";
 var r=0;
-setInterval(function(){
-	oEl.innerHTML = moons[r++];
-	r%=moons.length;
-},100);
 var imp = [64,65];
 var io  = [16,17,63,66,67]
 var sm  = [20,21,22,23];
@@ -168,43 +166,5 @@ for(var i=24;i<51;i++){
 for(var i=0;i<12;i++){
 	dt.push(i);
 }
-button.addEventListener("click",function(){Emotinomicon(code.value)});
-tokens.forEach(function(e,i){
-	var bu = document.createElement("button");
-	bu.innerHTML = e;
-	bu.id = i;
-	bu.className = (imp.indexOf(i)>=0?"important ":"")+(io.indexOf(i)>=0?"io ":"")+(sm.indexOf(i)>=0?"man ":"")+(op.indexOf(i)>=0?"op ":"")+(dt.indexOf(i)>=0?"data ":"")+(ctl.indexOf(i)>=0?"ctl ":"")+"emoji";
-	if(explanations[i]==" ")bu.className += " unassigned";
-	bu.addEventListener("click",function(){
-		var x = document.getElementById("code").value.split("");
-		x.splice(code.selectionStart,code.selectionEnd-code.selectionStart,this.innerHTML);
-		document.getElementById("code").value = x.join("");
-		updateByteCount();
-	});
-	bu.addEventListener("mouseover",function(){
-		document.getElementById("expl").innerHTML="<span class=\"large\">"+this.innerHTML+"</span><br>("+this.id+"; "+Number(this.id).toString(16)+"; "+Number(this.id).toString(36)+")<br>"+(explanations[this.id]==" "?"unassigned":explanations[this.id]);
-	});
-	document.getElementById("emotes").appendChild(bu);
-});
-function generateExplanation(){
-	var tox = tokenize(code.value);
-	var table = document.createElement("table");
-	var thr = document.createElement("tr");
-	(new Array(tox.length+1)).fill(0).map(function(a,i){var h=tokens.indexOf(tox[i]),th=document.createElement("th");th.innerHTML=tox[i]||"explanation";th.className=(imp.indexOf(h)>=0?"important ":"")+(io.indexOf(h)>=0?"io ":"")+(sm.indexOf(h)>=0?"man ":"")+(op.indexOf(h)>=0?"op ":"")+(dt.indexOf(h)>=0?"data ":"")+(ctl.indexOf(h)>=0?"ctl ":"")+"emoji";return th;}).forEach(function(e){thr.appendChild(e)});
-	table.appendChild(thr);
-	for(var i=0;i<tox.length;i++){
-		var tr = document.createElement("tr"),h=tokens.indexOf(tox[i]);
-		tr.className=(imp.indexOf(h)>=0?"important ":"")+(io.indexOf(h)>=0?"io ":"")+(sm.indexOf(h)>=0?"man ":"")+(op.indexOf(h)>=0?"op ":"")+(dt.indexOf(h)>=0?"data ":"")+(ctl.indexOf(h)>=0?"ctl ":"")+"emoji";
-		var tds = (new Array(tox.length+1)).fill(0).map(function(){var td = document.createElement("td");return td;});
-		tds[i].innerHTML = tox[i];
-		tds[tox.length].innerHTML = explanations[tokens.indexOf(tox[i])]||"";
-		tds.forEach(function(e){tr.appendChild(e)});
-		table.appendChild(tr);
-	}
-	// remove all elements
-	var e = document.getElementById("explanation");
-	while(e.lastChild){e.removeChild(e.lastChild)}
-	e.appendChild(table);
-}
-document.getElementById("gen").addEventListener("click",generateExplanation);
-generateExplanation();
+
+module.exports = Emotinomicon;

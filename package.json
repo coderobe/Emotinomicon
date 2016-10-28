@@ -1,0 +1,22 @@
+{
+  "name": "emotinomicon",
+  "version": "1.0.0",
+  "description": "An emote-oriented subset of javascript.",
+  "main": "emotinomicon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderobe/Emotinomicon-node.git"
+  },
+  "keywords": [
+    "emoji"
+  ],
+  "author": "Robin B. <robin@broda.me>",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/coderobe/Emotinomicon-node/issues"
+  },
+  "homepage": "https://github.com/coderobe/Emotinomicon-node#readme"
+}
